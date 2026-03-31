@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Angelina's Studio — Visual Communication Design</title>
+<meta name="description" content="Angelina's Studio — Visual Communication student based in Surabaya, Indonesia. Specialising in Brand Identity, UI/UX, Illustration, and Art Direction."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Syne:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #0d0c0b;
+  --bg2:     #111009;
+  --bg3:     #1a1815;
+  --ink:     #ede8df;
+  --ink2:    #a09488;
+  --ink3:    #5a5048;
+  --accent:  #b87a4a;
+  --accent2: #d4a070;
+  --border:  rgba(237,232,223,0.07);
+  --border2: rgba(237,232,223,0.14);
+  --serif:   'Cormorant Garamond', Georgia, serif;
+  --sans:    'Syne', system-ui, sans-serif;
+}
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: none;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--sans); cursor: pointer; }
+
+/* ─── CUSTOM CURSOR ─── */
+#cur {
+  position: fixed; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%); transition: width .2s, height .2s, background .2s;
+  mix-blend-mode: screen;
+}
+#curRing {
+  position: fixed; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid rgba(184,122,74,.45); pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: left .1s ease-out, top .1s ease-out, width .2s, height .2s, border-color .2s;
+}
+#cur.hov { width: 4px; height: 4px; }
+#curRing.hov { width: 52px; height: 52px; border-color: rgba(184,122,74,.8); }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.4rem 3.5rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(13,12,11,.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.nav-logo {
+  font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
+  letter-spacing: .05em; color: var(--ink);
+}
+.nav-center { display: flex; gap: 3rem; }
+.nav-center a {
+  font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--ink3); transition: color .25s;
+}
+.nav-center a:hover { color: var(--accent); }
+.nav-avail {
+  display: flex; align-items: center; gap: .55rem;
+  font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink3);
+}
+.pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #6a9a6a;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; padding: 12rem 3.5rem 5rem;
+  position: relative; overflow: hidden;
+}
+.hero-ghost {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-40%,-50%);
+  font-family: var(--serif); font-size: clamp(9rem,20vw,20rem);
+  font-weight: 600; color: rgba(237,232,223,.028);
+  white-space: nowrap; pointer-events: none; user-select: none;
+  letter-spacing: -.03em; line-height: 1;
+}
+.hero-eyebrow {
+  font-size: .66rem; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 1.75rem;
+  display: flex; align-items: center; gap: 1rem; opacity: 0;
+  animation: fadeUp .7s .1s ease forwards;
+}
+.hero-eyebrow::after { content:''; width: 60px; height: 1px; background: var(--accent); opacity: .5; }
+.hero-h1 {
+  font-family: var(--serif); font-size: clamp(4rem,9vw,8.5rem);
+  font-weight: 300; line-height: .98; letter-spacing: -.025em;
+  margin-bottom: 2.25rem; opacity: 0;
+  animation: fadeUp .8s .22s ease forwards;
+}
+.hero-h1 em { font-style: italic; color: var(--accent); }
+.hero-sub {
+  font-size: .88rem; line-height: 1.95; color: var(--ink2);
+  max-width: 400px; margin-bottom: 3rem; opacity: 0;
+  animation: fadeUp .8s .38s ease forwards;
+}
+.hero-actions {
+  display: flex; gap: 1.75rem; align-items: center; opacity: 0;
+  animation: fadeUp .8s .52s ease forwards;
+}
+.btn-border {
+  display: inline-block; padding: .9rem 2.4rem;
+  border: 1px solid var(--border2); color: var(--ink);
+  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+  transition: border-color .25s, color .25s; background: transparent;
+}
+.btn-border:hover { border-color: var(--accent); color: var(--accent); }
+.btn-link {
+  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink3); transition: color .25s; display: inline-flex; align-items: center; gap: .5rem;
+}
+.btn-link:hover { color: var(--ink); }
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 3.5rem;
+  display: flex; align-items: center; gap: 1rem;
+  font-size: .62rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ink3);
+  opacity: 0; animation: fadeUp .8s .7s ease forwards;
+}
+.hero-scroll-line { width: 40px; height: 1px; background: var(--ink3); }
+
+/* ─── MARQUEE ─── */
+.marquee-wrap {
+  overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 1.1rem 0; background: var(--bg2);
+}
+.marquee-track {
+  display: flex; gap: 0; animation: marquee 22s linear infinite; width: max-content;
+}
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item {
+  font-family: var(--serif); font-size: 1rem; font-style: italic;
+  color: var(--ink3); white-space: nowrap; padding: 0 2.5rem;
+  display: flex; align-items: center; gap: 2.5rem;
+}
+.marquee-sep { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ─── SECTION SHARED ─── */
+.sec-pad { padding: 7rem 3.5rem; }
+.sec-label {
+  font-size: .63rem; letter-spacing: .28em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 1rem; display: flex; align-items: center; gap: .85rem;
+}
+.sec-label::before { content:''; width: 22px; height: 1px; background: var(--accent); }
+.sec-title {
+  font-family: var(--serif); font-size: clamp(2.4rem,4.5vw,4rem);
+  font-weight: 300; line-height: 1.08; letter-spacing: -.025em; margin-bottom: 3.5rem;
+}
+
+/* ─── FILTER ─── */
+.filter-bar { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.filter-btn {
+  padding: .48rem 1.3rem; font-size: .65rem; letter-spacing: .18em; text-transform: uppercase;
+  border: 1px solid var(--border); background: transparent; color: var(--ink3);
+  transition: all .22s;
+}
+.filter-btn:hover { border-color: var(--border2); color: var(--ink); }
+.filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ─── WORKS MOSAIC GRID ─── */
+#works { padding: 7rem 0; }
+.works-header { padding: 0 3.5rem 3rem; }
+
+/*
+  Layout mirrors the reference screenshot:
+  Row 1: Kalisari wide (8 cols) | Lucky To Be Here portrait (4 cols) — 480px tall
+  Row 2: Mrs. Dandelion (4 cols) | ClawD (4 cols) | Kitsune (4 cols)  — 380px tall
+  Row 3: Citron Branch portrait (4 cols) | Little Ida's Flowers wide (5 cols) | [extra col for symmetry merged] — 420px tall
+*/
+.works-mosaic {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 480px 380px 420px;
+  gap: 3px;
+  background: rgba(237,232,223,.04);
+}
+
+/* Row 1 */
+.mosaic-item:nth-child(1) { grid-column: 1 / 9;  grid-row: 1; }   /* Kalisari — wide landscape */
+.mosaic-item:nth-child(2) { grid-column: 9 / 13; grid-row: 1; }   /* Lucky To Be Here — portrait */
+
+/* Row 2 */
+.mosaic-item:nth-child(3) { grid-column: 1 / 5;  grid-row: 2; }   /* Mrs. Dandelion — square */
+.mosaic-item:nth-child(4) { grid-column: 5 / 9;  grid-row: 2; }   /* ClawD — square */
+.mosaic-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2; }   /* Kitsune — square */
+
+/* Row 3 */
+.mosaic-item:nth-child(6) { grid-column: 1 / 5;  grid-row: 3; }   /* Citron Branch — portrait */
+.mosaic-item:nth-child(7) { grid-column: 5 / 13; grid-row: 3; }   /* Little Ida's Flowers — wide */
+
+.mosaic-item {
+  position: relative; overflow: hidden; cursor: pointer;
+  background: var(--bg2);
+}
+.mosaic-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center center;
+  transition: transform .65s ease, filter .55s ease;
+  filter: brightness(.88) saturate(.9);
+}
+.mosaic-item:hover img { transform: scale(1.05); filter: brightness(.6) saturate(.8); }
+
+/* Text overlay — always visible at bottom, matches the reference card style */
+.mosaic-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(13,12,11,.92) 0%,
+    rgba(13,12,11,.45) 28%,
+    rgba(13,12,11,.1) 55%,
+    transparent 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1.4rem 1.6rem 1.5rem;
+  pointer-events: none;
+}
+/* Category label — amber, small caps, always visible */
+.mosaic-cat {
+  font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: .3rem; line-height: 1;
+}
+/* Project title — serif, always visible */
+.mosaic-name {
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 300;
+  line-height: 1.2; color: var(--ink);
+  transition: transform .3s ease;
+}
+.mosaic-item:hover .mosaic-name { transform: translateY(-3px); }
+/* View cta — appears on hover */
+.mosaic-cta {
+  display: inline-block; margin-top: .65rem; font-size: .58rem;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
+  border-bottom: 1px solid rgba(184,122,74,.35); padding-bottom: 2px;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .28s .06s, transform .28s .06s;
+  pointer-events: all;
+}
+.mosaic-item:hover .mosaic-cta { opacity: 1; transform: translateY(0); }
+
+/* ─── ABOUT ─── */
+#about {
+  background: var(--bg2);
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 90vh;
+  align-items: stretch;
+}
+.about-portrait-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.about-portrait {
+  width: 100%; height: 100%;
+  position: relative; overflow: hidden;
+  min-height: 600px;
+}
+.about-portrait img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+  filter: brightness(.88) saturate(.9);
+  transition: transform .6s ease;
+  display: block;
+}
+.about-portrait:hover img { transform: scale(1.02); }
+.about-portrait-placeholder {
+  width: 100%; height: 100%; min-height: 600px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7rem; background: var(--bg3);
+}
+.about-portrait::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(184,122,74,.1), transparent 50%);
+  z-index: 1; pointer-events: none;
+}
+.about-portrait::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
+  background: linear-gradient(to top, rgba(13,12,11,.5), transparent);
+  z-index: 1; pointer-events: none;
+}
+.about-text {
+  padding: 7rem 4rem 7rem 5rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.about-text .sec-title { margin-bottom: 1.5rem; }
+.about-text p {
+  font-size: .88rem; line-height: 2; color: var(--ink2); margin-bottom: 1.15rem;
+}
+.about-text p strong { color: var(--ink); font-weight: 500; }
+.skills-grid {
+  margin-top: 2.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: .6rem .5rem;
+}
+.skill-item {
+  display: flex; align-items: center; gap: .7rem;
+  font-size: .75rem; color: var(--ink3); letter-spacing: .03em;
+}
+.skill-item::before {
+  content: ''; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+
+/* ─── PROCESS ─── */
+#process { background: var(--bg); padding: 7rem 3.5rem; }
+.process-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border); margin-top: 0;
+}
+.process-card {
+  background: var(--bg2); padding: 3rem 2.5rem;
+  transition: background .25s;
+}
+.process-card:hover { background: var(--bg3); }
+.process-num {
+  font-family: var(--serif); font-size: 4.5rem; font-weight: 300;
+  line-height: 1; color: rgba(184,122,74,.18); margin-bottom: 1.25rem;
+}
+.process-title {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 300;
+  color: var(--ink); margin-bottom: .9rem;
+}
+.process-desc { font-size: .8rem; line-height: 1.9; color: var(--ink3); }
+
+/* ─── CONTACT ─── */
+#contact {
+  background: var(--bg2); display: grid; grid-template-columns: 1fr 1fr;
+  gap: 7rem; align-items: start; padding: 8rem 3.5rem;
+}
+.contact-lhs p {
+  font-size: .88rem; line-height: 1.95; color: var(--ink2); margin-bottom: 2.25rem;
+}
+.contact-links { display: flex; flex-direction: column; }
+.contact-link {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.1rem 0; border-bottom: 1px solid var(--border);
+  font-size: .8rem; letter-spacing: .04em; color: var(--ink2);
+  transition: color .22s, border-color .22s;
+}
+.contact-link:hover { color: var(--accent); border-color: rgba(184,122,74,.35); }
+.contact-link-inner { display: flex; align-items: center; gap: .65rem; }
+.contact-icon { width: 15px; height: 15px; flex-shrink: 0; opacity: .6; transition: opacity .22s; }
+.contact-link:hover .contact-icon { opacity: 1; }
+.contact-arrow { opacity: .35; transition: opacity .22s, transform .22s; }
+.contact-link:hover .contact-arrow { opacity: 1; transform: translateX(5px); }
+.contact-form { display: flex; flex-direction: column; gap: 1.4rem; }
+.form-label {
+  font-size: .62rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--ink3); display: block; margin-bottom: .55rem;
+}
+.form-input, .form-textarea {
+  width: 100%; background: transparent;
+  border: none; border-bottom: 1px solid var(--border2);
+  color: var(--ink); font-family: var(--sans); font-size: .88rem;
+  padding: .7rem 0; outline: none; transition: border-color .22s;
+}
+.form-input::placeholder, .form-textarea::placeholder { color: var(--ink3); }
+.form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+.form-textarea { min-height: 120px; resize: none; }
+.btn-send {
+  align-self: flex-start; padding: 1rem 2.75rem;
+  background: var(--accent); color: var(--bg);
+  font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+  border: none; margin-top: .5rem;
+  transition: opacity .22s, transform .18s;
+}
+.btn-send:hover { opacity: .85; transform: translateY(-2px); }
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 1.75rem 3.5rem; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--bg);
+}
+footer p { font-size: .68rem; letter-spacing: .08em; color: var(--ink3); }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(13,12,11,.93);
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem; opacity: 0; pointer-events: none;
+  transition: opacity .3s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--bg2); border: 1px solid var(--border2);
+  max-width: 700px; width: 100%; overflow: hidden; position: relative;
+  transform: translateY(18px); transition: transform .3s;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-thumb {
+  width: 100%; aspect-ratio: 16/9;
+  display: flex; align-items: center; justify-content: center; font-size: 5rem;
+  position: relative; overflow: hidden;
+}
+.modal-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.modal-body { padding: 2.25rem 2.75rem 2.75rem; }
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem; z-index: 10;
+  width: 34px; height: 34px; background: rgba(13,12,11,.7);
+  border: 1px solid var(--border2); color: var(--ink2); font-size: .85rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .2s, border-color .2s;
+}
+.modal-close:hover { color: var(--ink); border-color: var(--border2); }
+.modal-cat { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+.modal-title { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--ink); margin-bottom: 1rem; }
+.modal-desc { font-size: .85rem; line-height: 1.9; color: var(--ink2); margin-bottom: 1.5rem; }
+.modal-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+.modal-tag {
+  padding: .28rem .8rem; border: 1px solid var(--border);
+  font-size: .65rem; color: var(--ink3); letter-spacing: .06em;
+}
+
+/* ─── UTILS & ANIMATION ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s ease, transform .65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  nav { padding: 1.2rem 2rem; }
+  .nav-center { display: none; }
+  #hero { padding: 9rem 2rem 4rem; }
+  .works-mosaic {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+  .mosaic-item:nth-child(1) { grid-column: 1 / 3; grid-row: auto; aspect-ratio: 16/9; }
+  .mosaic-item:nth-child(2),
+  .mosaic-item:nth-child(3),
+  .mosaic-item:nth-child(4),
+  .mosaic-item:nth-child(5) { grid-column: auto; grid-row: auto; aspect-ratio: 1; }
+  .mosaic-item:nth-child(6) { grid-column: auto; grid-row: auto; aspect-ratio: 3/4; }
+  .mosaic-item:nth-child(7) { grid-column: 1 / 3; grid-row: auto; aspect-ratio: 16/9; }
+  .works-mosaic .mosaic-item { min-height: 200px; }
+  #about { grid-template-columns: 1fr; }
+  .about-portrait { min-height: 420px; }
+  .about-portrait-placeholder { min-height: 420px; }
+  .about-text { padding: 4rem 2rem; }
+  #contact { grid-template-columns: 1fr; gap: 3.5rem; padding: 5rem 2rem; }
+  #process { padding: 5rem 2rem; }
+  .process-grid { grid-template-columns: 1fr; }
+  .sec-pad { padding: 5rem 2rem; }
+  footer { padding: 1.5rem 2rem; }
+  .hero-scroll { left: 2rem; }
+  .works-header { padding: 0 2rem 2.5rem; }
+}
+@media (max-width: 520px) {
+  .works-mosaic { grid-template-columns: 1fr; }
+  .mosaic-item:nth-child(1),
+  .mosaic-item:nth-child(7) { grid-column: 1; aspect-ratio: 4/3; }
+  .hero-h1 { font-size: 3.5rem; }
+  .about-text { padding: 3rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="curRing"></div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Angelina's Studio</span>
+  <div class="nav-center">
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#works">Project Gallery</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-avail">
+    <span class="pulse-dot"></span>Available for Contact
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-ghost">VISUAL</div>
+  <div class="hero-eyebrow">Visual Communication Student</div>
+  <h1 class="hero-h1">
+    Crafting<br/><em>Identity</em><br/>Through Soul
+  </h1>
+  <p class="hero-sub">
+    I specialise at the intersection of design exploration — creating visual systems that feel considered, atmospheric, and lasting.
+  </p>
+  <div class="hero-actions">
+    <a class="btn-border" href="#works">View Selected Work</a>
+    <a class="btn-link" href="#contact">Say hello →</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Scroll to Explore
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Brand Identity<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Illustration<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Photography<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Visual Storytelling<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Art Direction<span class="marquee-sep"></span></div>
+    <div class="marquee-item">UI/UX Design<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Mark Making<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Brand Identity<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Illustration<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Photography<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Visual Storytelling<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Art Direction<span class="marquee-sep"></span></div>
+    <div class="marquee-item">UI/UX Design<span class="marquee-sep"></span></div>
+    <div class="marquee-item">Mark Making<span class="marquee-sep"></span></div>
+  </div>
+</div>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="works-header">
+    <span class="sec-label reveal">Selected Work</span>
+    <h2 class="sec-title reveal">Projects</h2>
+    <div class="filter-bar reveal" id="filterBar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="branding">Branding & Identity</button>
+      <button class="filter-btn" data-filter="illustration">Illustration</button>
+      <button class="filter-btn" data-filter="photography">Photography</button>
+    </div>
+  </div>
+  <div class="works-mosaic" id="worksGrid">
+
+    <!-- 1 · Kalisari Rebranding — wide landscape, Row 1 left -->
+    <div class="mosaic-item" data-cat="branding" onclick="openModal(1)">
+      <img
+        src="Screenshot_2026-03-31_at_12_21_08_am.png"
+        alt="Kalisari Rebranding — brand identity with calligraphic ampersand wordmark on white paper with wooden stamp"
+        loading="lazy"
+        style="object-position: 60% center;"
+      />
+      <div class="mosaic-overlay">
+        <div class="mosaic-cat">Branding</div>
+        <div class="mosaic-name">Kalisari Rebranding</div>
+        <span class="mosaic-cta">View Project</span>
+      </div>
+    </div>
+
+    <!-- 2 · Tender Is The Meadow — portrait, Row 1 right -->
+    <div class="mosaic-item" data-cat="photography" onclick="openModal(2)">
+      <img
+        src="Screenshot_2026-03-31_at_12_14_36_am.png"
+        alt="Tender Is The Meadow — collage photography with sleeping cow figurine, lily flowers and blue birds on dark textured background"
+        loading="lazy"
+        style="object-position: center 30%;"
+      />
+      <div class="mosaic-overlay">
+        <div class="mosaic-cat">Photography</div>
+        <div class="mosaic-name">Tender Is The Meadow</div>
+        <span class="mosaic-cta">View Project</span>
+      </div>
+    </div>
+
+    <!-- 3 · Mrs. Dandelion Had A Fall — square, Row 2 left -->
+    <div class="mosaic-item" data-cat="illustration" onclick="openModal(3)">
+      <img
+        src="Screenshot_2026-03-31_at_4_09_56_pm.png"
+        alt="Mrs. Dandelion Had A Fall — painterly digital illustration of a small figure in a luminous flower field"
+        loading="lazy"
+        style="object-position: center center;"
+      />
+      <div class="mosaic-overlay">
+        <div class="mosaic-cat">Illustration</div>
+        <div class="mosaic-name">Mrs. Dandelion Had A Fall</div>
+        <span class="mosaic-cta">View Project</span>
+      </div>
+    </div>
+
+    <!-- 4 · ClawD — square, Row 2 centre -->
+    <div class="mosaic-item" data-cat="branding" onclick="openModal(4)">
+      <img
+        src="Screenshot_2026-03-31_at_4_10_24_pm.png"
+        alt="ClawD — bold brand identity with orange tiger mascot illustration and heavy wordmark on cream background"
+        loading="lazy"
+        style="object-position: center center;"
+      />
+      <div class="mosaic-overlay">
+        <div class="mosaic-cat">Branding</div>
+        <div class="mosaic-name">ClawD</div>
+        <span class="mosaic-cta">View Project</span>
+      </div>
+    </div>
+
+    <!-- 5 · Kitsune — square, Row 2 right -->
+    <div class="mosaic-item" data-cat="photography" onclick="openModal(5)">
+      <img
+        src="Screenshot_2026-03-31_at_4_09_31_pm.png"
+        alt="Kitsune — dramatic chiaroscuro photography of a figure wearing a fox mask holding red calligraphy scrolls"
+        loading="lazy"
+        style="object-position: center 20%;"
+      />
+      <div class="mosaic-overlay">
+        <div class="mosaic-cat">Photography</div>
+        <div class="mosaic-name">Kitsune</div>
+        <span class="mosaic-cta">View Project</span>
+      </div>
+    </div>
+
+    <!-- 6 · Citron Branch — portrait, Row 3 left -->
+    <div class="mosaic-item" data-cat="illustration" onclick="openModal(6)">
+      <img
+        src="Screenshot_2026-03-31_at_4_09_16_pm.png"
+        alt="Citron Branch — vibrant digital painting of citrus slices in yellow green and purple with expressive brushwork"
+        loading="lazy"
+        style="object-position: center center;"
+      />
+      <div class="mosaic-overlay">
+        <div class="mosaic-cat">Illustration</div>
+        <div class="mosaic-name">Citron Branch</div>
+        <span class="mosaic-cta">View Project</span>
+      </div>
+    </div>
+
+    <!-- 7 · Little Ida's Flowers — wide, Row 3 right -->
+    <div class="mosaic-item" data-cat="illustration" onclick="openModal(7)">
+      <img
+        src="Screenshot_2026-03-31_at_4_10_07_pm.png"
+        alt="Little Ida's Flowers — lush digital illustration with floral garden, hand lettering, figures and white rabbit"
+        loading="lazy"
+        style="object-position: center center;"
+      />
+      <div class="mosaic-overlay">
+        <div class="mosaic-cat">Illustration</div>
+        <div class="mosaic-name">Little Ida's Flowers</div>
+        <span class="mosaic-cta">View Project</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-portrait-wrap reveal">
+    <div class="about-portrait">
+      <!--
+        TO ADD YOUR PHOTO:
+        Replace the div below with:
+        <img src="your-photo.jpg" alt="Angelina" />
+      -->
+      <div class="about-portrait-placeholder">🪞</div>
+    </div>
+  </div>
+  <div class="about-text reveal">
+    <span class="sec-label">About</span>
+    <h2 class="sec-title">Image-maker.<br/><em style="font-style:italic">Story-teller.</em></h2>
+    <p>I'm a visual communication student. My persona focuses on the <strong>identity or idea</strong> of my projects and turning them into a solution of humanity. Compelling stories usually inspire me the most.</p>
+    <p>Like Walter Wanderley's song, I design for the <strong>'Blue Lady.'</strong> My work starts where I identify stories between users and technology. I specialise in restorative design that 'chases the blues away,' turning frustrated touchpoints into moments of reconciliation.</p>
+    <p>Currently based in <strong>Surabaya, Indonesia</strong>, open to remote collaborations worldwide.</p>
+    <div class="skills-grid">
+      <div class="skill-item">Brand Identity</div>
+      <div class="skill-item">Adobe Illustrator</div>
+      <div class="skill-item">UI/UX</div>
+      <div class="skill-item">Figma</div>
+      <div class="skill-item">AI Proficiency</div>
+      <div class="skill-item">Canva</div>
+      <div class="skill-item">Art Direction</div>
+      <div class="skill-item">GitHub</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <span class="sec-label reveal">How I Work</span>
+  <h2 class="sec-title reveal">Process</h2>
+  <div class="process-grid">
+    <div class="process-card reveal">
+      <div class="process-num">01</div>
+      <div class="process-title">Research & Immersion</div>
+      <p class="process-desc">Every project starts with deep listening. I study the context, the culture, the mood — before a single mark is made.</p>
+    </div>
+    <div class="process-card reveal">
+      <div class="process-num">02</div>
+      <div class="process-title">Visual Exploration</div>
+      <p class="process-desc">Sketching, moodboarding, and unexpected references. I look for the visual truth that others might overlook.</p>
+    </div>
+    <div class="process-card reveal">
+      <div class="process-num">03</div>
+      <div class="process-title">Refinement & Craft</div>
+      <p class="process-desc">Precision in execution. Every curve, weight, and tone is considered until the work feels inevitable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-lhs reveal">
+    <span class="sec-label">Contact</span>
+    <h2 class="sec-title">Let's Make<br/><em style="font-style:italic;font-family:'Cormorant Garamond',serif">Something.</em></h2>
+    <p>Open to internships, freelance commissions, and creative collaborations. I'd love to hear about what you're building.</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:alliatjan@gmail.com">
+        <span class="contact-link-inner"><svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>alliatjan@gmail.com</span>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a class="contact-link" href="https://instagram.com/" target="_blank" rel="noopener">
+        <span class="contact-link-inner"><svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</span>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a class="contact-link" href="https://wa.me/" target="_blank" rel="noopener">
+        <span class="contact-link-inner"><svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.122 1.523 5.854L.057 23.571a.5.5 0 0 0 .614.614l5.718-1.466A11.946 11.946 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.652-.51-5.17-1.399l-.371-.221-3.844.986.986-3.845-.221-.371A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</span>
+        <span class="contact-arrow">→</span>
+      </a>
+    </div>
+  </div>
+  <div class="contact-form reveal">
+    <div>
+      <label class="form-label">Name</label>
+      <input class="form-input" type="text" placeholder="Your full name" id="cName"/>
+    </div>
+    <div>
+      <label class="form-label">Email</label>
+      <input class="form-input" type="email" placeholder="email@example.com" id="cEmail"/>
+    </div>
+    <div>
+      <label class="form-label">Project</label>
+      <input class="form-input" type="text" placeholder="Brief description" id="cProject"/>
+    </div>
+    <div>
+      <label class="form-label">Message</label>
+      <textarea class="form-textarea" placeholder="Tell me more…" id="cMsg"></textarea>
+    </div>
+    <button class="btn-send" onclick="handleSend()">Send Message</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Angelina — Visual Communication Design</p>
+  <p>Surabaya, Indonesia</p>
+</footer>
+
+<!-- PROJECT MODAL -->
+<div class="modal-overlay" id="modal" onclick="handleModalClick(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-thumb" id="mThumb"></div>
+    <div class="modal-body">
+      <div class="modal-cat" id="mCat"></div>
+      <h3 class="modal-title" id="mTitle"></h3>
+      <p class="modal-desc" id="mDesc"></p>
+      <div class="modal-tags" id="mTags"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── PROJECT DATA ── */
+const projects = [
+  {
+    id: 1, cat: 'branding',
+    name: 'Kalisari Rebranding',
+    tagline: 'Branding & Identity',
+    year: '2024',
+    img: 'Screenshot_2026-03-31_at_12_21_08_am.png',
+    desc: 'A full rebranding for Kalisari — centred on a hand-drawn calligraphic ampersand mark that balances elegance with warmth. The identity system was applied across stationery, stamps, and brand collateral, communicating craft and heritage.',
+    tags: ['Brand Identity', 'Logo Design', 'Calligraphy', 'Stationery']
+  },
+  {
+    id: 2, cat: 'photography',
+    name: 'Tender Is The Meadow',
+    tagline: 'Photography',
+    year: '2024',
+    img: 'Screenshot_2026-03-31_at_12_14_36_am.png',
+    desc: 'A collage photography series weaving found imagery, ceramic figurines, pressed botanicals and illustrated birds into a single dreamlike composition. The title is drawn from Keats — evoking tenderness, nostalgia, and the natural world.',
+    tags: ['Photography', 'Collage', 'Editorial', 'Mixed Media']
+  },
+  {
+    id: 3, cat: 'illustration',
+    name: 'Mrs. Dandelion Had A Fall',
+    tagline: 'Illustration',
+    year: '2024',
+    img: 'Screenshot_2026-03-31_at_4_09_56_pm.png',
+    desc: 'A painterly digital illustration — a tiny figure suspended in a luminous field of marigolds and fog. The work explores scale, solitude, and the moment between falling and floating, rendered in loose impressionistic brushwork.',
+    tags: ['Digital Illustration', 'Painting', 'Narrative Art']
+  },
+  {
+    id: 4, cat: 'branding',
+    name: 'ClawD',
+    tagline: 'Branding & Identity',
+    year: '2023',
+    img: 'Screenshot_2026-03-31_at_4_10_24_pm.png',
+    desc: 'Brand identity for ClawD — a bold, mascot-led mark system built around an expressive tiger illustration in vivid orange. The wordmark uses heavy grotesque type for contrast, creating a design that feels both playful and authoritative.',
+    tags: ['Brand Identity', 'Mascot Design', 'Illustration', 'Typography']
+  },
+  {
+    id: 5, cat: 'photography',
+    name: 'Kitsune',
+    tagline: 'Photography',
+    year: '2023',
+    img: 'Screenshot_2026-03-31_at_4_09_31_pm.png',
+    desc: 'A dramatic chiaroscuro portrait series drawing from Japanese folklore. A figure wearing a fox mask holds red calligraphy scrolls in near-total darkness — exploring ritual, identity, and the tension between concealment and reveal.',
+    tags: ['Photography', 'Portrait', 'Chiaroscuro', 'Art Direction']
+  },
+  {
+    id: 6, cat: 'illustration',
+    name: 'Citron Branch',
+    tagline: 'Illustration',
+    year: '2023',
+    img: 'Screenshot_2026-03-31_at_4_09_16_pm.png',
+    desc: 'A vibrant still-life illustration series depicting citrus fruit in motion — lemons, limes, and oranges rendered with loose, energetic brushwork across a swirling purple-yellow ground. The work explores colour, abundance, and sensory pleasure.',
+    tags: ['Illustration', 'Digital Painting', 'Still Life', 'Colour Study']
+  },
+  {
+    id: 7, cat: 'illustration',
+    name: "Little Ida's Flowers",
+    tagline: 'Illustration',
+    year: '2023',
+    img: 'Screenshot_2026-03-31_at_4_10_07_pm.png',
+    desc: "Inspired by Hans Christian Andersen's fairy tale — a lush, atmospheric illustration crowded with painted flowers, ghostly figures, a white rabbit, and hand-lettered title. The work collapses the boundary between the botanical and the uncanny.",
+    tags: ['Digital Illustration', 'Hand Lettering', 'Narrative', 'Fairy Tale']
+  },
+];
+
+/* ── FILTER ── */
+const allItems = document.querySelectorAll('.mosaic-item');
+document.getElementById('filterBar').addEventListener('click', e => {
+  if (!e.target.classList.contains('filter-btn')) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  const filter = e.target.dataset.filter;
+  allItems.forEach(item => {
+    const match = filter === 'all' || item.dataset.cat === filter;
+    item.style.display = match ? '' : 'none';
+  });
+});
+
+/* ── MODAL ── */
+function openModal(id) {
+  const p = projects.find(x => x.id === id);
+  if (!p) return;
+  const t = document.getElementById('mThumb');
+  t.innerHTML = `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;object-position:center top"/>`;
+  document.getElementById('mCat').textContent = p.tagline + ' — ' + p.year;
+  document.getElementById('mTitle').textContent = p.name;
+  document.getElementById('mDesc').textContent = p.desc;
+  document.getElementById('mTags').innerHTML = p.tags.map(tg => `<span class="modal-tag">${tg}</span>`).join('');
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleModalClick(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── CONTACT FORM ── */
+function handleSend() {
+  const name = document.getElementById('cName').value.trim();
+  const email = document.getElementById('cEmail').value.trim();
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  alert('Thank you, ' + name + '! Your message has been sent.');
+  ['cName','cEmail','cProject','cMsg'].forEach(id => document.getElementById(id).value = '');
+}
+
+/* ── CURSOR ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('curRing');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+  ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a, button, .mosaic-item, .process-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.classList.add('hov'); ring.classList.add('hov'); });
+  el.addEventListener('mouseleave', () => { cur.classList.remove('hov'); ring.classList.remove('hov'); });
+});
+
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
